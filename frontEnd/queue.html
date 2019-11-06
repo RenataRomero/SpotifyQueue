@@ -1,0 +1,46 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styless.css">
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Song's queue</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Home</a>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search queue id" aria-label="Search">
+            <button class="btn btn-dark btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Queue song request.</h1>
+            <p class="lead">
+                Since this is an independent Spotify project, to add a song, put the name of the song and the artist..</p>
+        </div>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Song's name:</label>
+            <input type="text" class="form-control" id="song-name" placeholder="Enter song's name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Artist</label>
+            <input type="text" class="form-control" id="artist" placeholder="Enter song's artist.">
+        </div>
+        <div class="form-group form-check">
+        </div>
+        <button type="submit" class="btn btn-primary">Add to queue</button>
+    </form>
+    <div class="player">
+        <iframe src="https://open.spotify.com/embed/playlist/2ehIooSkp2XPe55VppmNtS" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
+</body>
+
+</html>
