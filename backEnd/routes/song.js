@@ -7,16 +7,23 @@ router.post('/add', (req, res) => {
 
     let songName = req.body.songName;
 
-    res.send('ADD SONG ' + songName);
+    res.send(`ADDED SONG ${songName} TO QUEUE`);
 
 });
 
 router.get('/search', (req, res) => {
     res.status(200);
 
-    let songName = req.body.songName;
+    let songName = req.body.name;
 
-    res.send('SEARCH FOR ' + songName);
+    res.send([{
+        name: songName,
+        artist: "Artist 1"
+    },
+    {
+        name: "Song 2",
+        artist: "Artist 2"
+    }]);
 });
 
 

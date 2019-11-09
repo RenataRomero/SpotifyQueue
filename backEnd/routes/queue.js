@@ -17,16 +17,10 @@ router.post('/create', (req, res) => {
     let name = req.body.name;
     let description = req.body.description;
 
-    res.send(req.body);  
+    res.send(`Creating the queue ${name} with the desctiption: ${description}`);  
 });
 
-
-router.get('/join/:queueToken', (req, res) => {
-    res.status(200);
-    res.send('QUEUE JOIN WINDOW OF QUEUE: ' + req.params.queueToken);
-});
-
-router.get('/join/', (req, res) => {
+router.get('/join', (req, res) => {
     res.status(200);
     res.send('QUEUE JOIN WINDOW');
 });
@@ -34,9 +28,9 @@ router.get('/join/', (req, res) => {
 
 router.post('/join', (req, res) => {
     res.status(200);
-    //let token = req.body.name;
+    let queueToken = req.body.queueToken;
 
-    res.send(req.body);
+    res.send(`JOINED QUEUE WITH THE TOKEN: ${queueToken}`);
 
 });
 
@@ -44,10 +38,21 @@ router.get('/:idQueue', (req, res) => {
     res.status(200);
     let idQueue = req.params.idQueue;
     res.send({
-        idQueue: idQueue,
-        token: "1232hghegy2g",
-        name: "Lorem",
-        description: "Ipsum"
+        name: 'QUEUE NAME',
+        description: 'QUEUE DESCRIPTION',
+        token: queueToken,
+        songs:[{
+            name: 'Song 1',
+            artist: 'Artist 1'
+        },
+        {
+            name: 'Song 2',
+            artist: 'Artist 2'
+        },
+        {
+            name: 'Song 3',
+            artist: 'Artist 3'
+        }]
     });
 });
 
