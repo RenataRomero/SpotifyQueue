@@ -34,9 +34,9 @@ router.post('/join', (req, res) => {
 
 });
 
-router.get('/:idQueue', (req, res) => {
+router.get('/:queueToken', (req, res) => {
     res.status(200);
-    let idQueue = req.params.idQueue;
+    let queueToken = req.params.queueToken;
     res.send({
         name: 'QUEUE NAME',
         description: 'QUEUE DESCRIPTION',
@@ -54,6 +54,12 @@ router.get('/:idQueue', (req, res) => {
             artist: 'Artist 3'
         }]
     });
+});
+
+router.delete('/:queueToken', (req, res) => {
+    res.status(200);
+    let queueToken = req.params.queueToken;
+    res.send(`DELETED QUEUE WITH THE TOKEN: ${queueToken}`);
 });
 
 module.exports = router;
