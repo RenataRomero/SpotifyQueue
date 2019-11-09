@@ -1,16 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-router.post('/add/:songName', (req, res) => {
+router.post('/add', (req, res) => {
 
     res.status(200);
-    res.send('ADD SONG');
+
+    let songName = req.body.songName;
+
+    res.send('ADD SONG ' + songName);
 
 });
 
-router.get('/search/:songName', (req, res) => {
+router.get('/search', (req, res) => {
     res.status(200);
-    res.send('SEARCH SONG');
+
+    let songName = req.body.songName;
+
+    res.send('SEARCH FOR ' + songName);
 });
 
 
