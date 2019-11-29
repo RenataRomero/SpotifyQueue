@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
     res.send('MAIN WINDOW');
 });
 
-router.get('/api/login', (req, res) => {
+router.get('/login', (req, res) => {
     let state = generateRandomString(16);
     res.cookie(state_key, state);
 
@@ -50,9 +50,9 @@ router.get('/callback', (req, res) => {
         state
     } = req.query;
     const storedState = req.cookies ? req.cookies[state_key] : null;
-    console.log("I'm back");
-    console.log(state);
-    console.log(storedState);
+    // console.log("I'm back");
+    // console.log(state);
+    // console.log(storedState);
     if (state === null || state !== storedState) {
         res.redirect('/#' +
             querystring.stringify({
@@ -78,6 +78,7 @@ router.get('/callback', (req, res) => {
                 let access_token = body.access_token;
                 let refresh_token = body.refresh_token;
 
+                //GET the profile of the user
                 let options = {
                     url: 'https://api.spotify.com/v1/me',
                     headers: {
@@ -90,6 +91,7 @@ router.get('/callback', (req, res) => {
                     console.log(body);
                 });
 
+                //return the access token and refresh token
                 res.redirect('/#' +
                     querystring.stringify({
                         access_token: access_token,
@@ -106,6 +108,32 @@ router.get('/callback', (req, res) => {
         // res.status(200);
         // res.send(`Code = ${code} State = ${state}`);
     }
+});
+
+router.get('/refresh_token', function (req, res) {
+
+    // requesting access token from refresh token
+    let refresh_token = req.query.refresh_token;
+    let authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        form: {
+            grant_type: 'refresh_token',
+            refresh_token: refresh_token
+        },
+        json: true
+    };
+
+    request.post(authOptions, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            let access_token = body.access_token;
+            res.send({
+                'access_token': access_token
+            });
+        }
+    });
 });
 
 module.exports = router;
