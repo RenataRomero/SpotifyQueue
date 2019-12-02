@@ -27,10 +27,19 @@ body {
 }
 
 body,
+textarea {
+    color: white;
+    font-family: "Raleway", sans-serif;
+    font-size: 17pt;
+    font-weight: 300;
+    letter-spacing: 0.025em;
+    line-height: 1.65;
+}
+
 input,
 select,
 textarea {
-    color: white;
+    color: black;
     font-family: "Raleway", sans-serif;
     font-size: 17pt;
     font-weight: 300;
