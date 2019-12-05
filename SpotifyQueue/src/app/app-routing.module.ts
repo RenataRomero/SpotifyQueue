@@ -11,9 +11,9 @@ import { AuthGuard } from './common/guards/auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
-  { path: 'create', component: CreateQueueComponent },
+  { path: 'create', component: CreateQueueComponent, canActivate: [AuthGuard] },
   { path: 'join', component: JoinQueueComponent, canActivate: [AuthGuard]},
-  { path: 'queue', component: QueueViewComponent },
+  { path: 'queue', component: QueueViewComponent, canActivate: [AuthGuard] },
   { path: 'queue/:queueId', component: QueueViewComponent, canActivate: [AuthGuard] }
   ];
 
