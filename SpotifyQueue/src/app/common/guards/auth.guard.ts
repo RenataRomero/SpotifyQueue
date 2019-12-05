@@ -19,13 +19,15 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    //   console.log('Entró a guard');
-    // if (!this.authService.isLoggeIn()) {
-    //   console.log('Guard dejó pasar');
-    //   return this.router.navigate(['/']);
-    // } else {
-    //   console.log('Falló guard');
-    // }
+      console.log('Entró a guard');
+      console.log(this.authService.isLoggeIn());
+    if (this.authService.isLoggeIn()) {
+      console.log('Guard dejó pasar');
+      return true;
+    } else {
+      console.log('Falló guard');
+      return false;
+    }
     // return new Promise(resolve =>
     //   this.authService.isLoggeInPromise()
     //     .then(() => {
