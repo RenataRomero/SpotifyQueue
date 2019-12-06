@@ -30,7 +30,7 @@ router.get('/login', (req, res) => {
     let state = generateRandomString(16);
     res.cookie(state_key, state);
 
-    let scope = 'user-read-private user-read-email';
+    let scope = scopes.join(" ");
 
     res.redirect('https://accounts.spotify.com/authorize?' +
         querystring.stringify({
@@ -40,19 +40,16 @@ router.get('/login', (req, res) => {
             redirect_uri: redirect_uri,
             state: state
         }));
+    
+    res.status(200).send();
 });
 
 router.get('/callback', (req, res) => {
-    // res.status(200);
-    // res.send("I'm back");
     const {
         code,
         state
     } = req.query;
     const storedState = req.cookies ? req.cookies[state_key] : null;
-    // console.log("I'm back");
-    // console.log(state);
-    // console.log(storedState);
     if (state === null || state !== storedState) {
         res.redirect('/#' +
             querystring.stringify({
@@ -92,21 +89,23 @@ router.get('/callback', (req, res) => {
                 });
 
                 //return the access token and refresh token
-                res.redirect('/#' +
-                    querystring.stringify({
-                        access_token: access_token,
-                        refresh_token: refresh_token
-                    }));
+                // res.redirect('/#' +
+                //     querystring.stringify({
+                //         access_token: access_token,
+                //         refresh_token: refresh_token
+                //     }));
+                res.status(200).send({
+                    access_token: access_token,
+                    refresh_token: refresh_token
+                });
             } else {
-                res.redirect('/#' +
-                    querystring.stringify({
-                        error: 'invalid_token'
-                    }));
+                // res.redirect('/#' +
+                //     querystring.stringify({
+                //         error: 'invalid_token'
+                //     }));
+                res.status(400).send({error: 'invalid_token'});
             }
         });
-
-        // res.status(200);
-        // res.send(`Code = ${code} State = ${state}`);
     }
 });
 

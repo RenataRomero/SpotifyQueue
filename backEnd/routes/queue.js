@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const request = require('request');
+const mw = require("./middleware");
+const joi = require('joi');
 
 router.get('/', (req, res) => {
     res.status(200);
@@ -11,13 +14,41 @@ router.get('/create', (req, res) => {
     res.send('QUEUE CREATE WINDOW');   
 });
 
-router.post('/create', (req, res) => {
-    res.status(200);
+router.post('/create', mw.tokenValidator, (req, res) => {
+    const queueSchema = {
+        access_token: joi.required(),
+        user_id: joi.required(),
+        name: joi.required(),
+        description: joi.optional()
+    }
 
-    let name = req.body.name;
-    let description = req.body.description;
+    let queue = joi.validate(req.body, queueSchema);
 
-    res.send(`Creating the queue ${name} with the desctiption: ${description}`);  
+    if(queue.error){
+        res.status(400).send(`Bad request ${queue.error.details[0].message}`);
+        return;
+    }
+
+    let options = {
+        url: `https://api.spotify.com/v1/users/${queue.value.user_id}/playlists`,
+        headers: {
+            'Authorization': 'Bearer ' + queue.value.access_token,
+            'Content-Type': 'application/json'
+        },
+        body : {
+            name: queue.value.name,
+            public: false,
+            collaborative: true,
+            description: queue.value.description
+        },
+        json: true
+    };
+
+    // console.log(options);
+
+    request.post(options, (error, response, body) => {
+        res.send(body);
+    });
 });
 
 router.get('/join', (req, res) => {

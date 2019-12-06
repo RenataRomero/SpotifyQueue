@@ -1,0 +1,21 @@
+@host = http://localhost:3000
+
+### LOGIN
+GET {{host}}/login
+Content-Type: application/json
+
+### GET USER INFO
+GET {{host}}/user
+Content-Type: application/json
+x-auth-user: "BQCtfNcLr3E90sYy-iFd07BOjt8zzKHCMnYV1OQSwOwanbY4BT32Dfs8BDb0cchDcxcNgVdYkZUhVh7jQFBcmjlPHM924XoB2PxjiPG4hOhXHosVVf_3_6eHhyB-HfRYyI820heBfdPRTejDfJqBUzipH9nvFAkeYxTTieYC5iA6ZezdeffuLlBb9Rs2zm4ecbTcX4sxjthIqPu_-QI7_07SVbBEZUfLhWZgk5QtByUQG8A"
+
+### POST PLAYLIST 
+POST {{host}}/queue/create
+Content-Type: application/json
+x-auth-user: "BQCtfNcLr3E90sYy-iFd07BOjt8zzKHCMnYV1OQSwOwanbY4BT32Dfs8BDb0cchDcxcNgVdYkZUhVh7jQFBcmjlPHM924XoB2PxjiPG4hOhXHosVVf_3_6eHhyB-HfRYyI820heBfdPRTejDfJqBUzipH9nvFAkeYxTTieYC5iA6ZezdeffuLlBb9Rs2zm4ecbTcX4sxjthIqPu_-QI7_07SVbBEZUfLhWZgk5QtByUQG8A"
+
+{
+    "user_id":"marianasierrav",
+    "name":"Test playlist",
+    "description": "Spotify queue"
+}
