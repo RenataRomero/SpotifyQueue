@@ -28,7 +28,7 @@ Content-Type: application/json
 x-auth-user: {{token}}
 
 {
-    "q":"bad bunny"
+    "q":"outright"
 }
 
 ### ADD TRACK TO YOUR OWN PLAYLIST
@@ -37,7 +37,7 @@ Content-Type: application/json
 x-auth-user: {{token}}
 
 {
-    "uris":"spotify:track:2TH65lNHgvLxCKXM3apjxI",
+    "uris":"spotify:track:6TGapnqEUkkSBanKyn5qYy",
     "playlist_id":"53yPZFttZpatuKsXKIwLVa"
 }
 

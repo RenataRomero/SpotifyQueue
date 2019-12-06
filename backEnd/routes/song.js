@@ -71,7 +71,7 @@ router.get('/search', mw.tokenValidator, (req, res) => {
             limit: 1,
         });
 
-    console.log(url);
+    // console.log(url);
 
     let options = {
         url: url,
