@@ -47,7 +47,17 @@ router.post('/create', mw.tokenValidator, (req, res) => {
     // console.log(options);
 
     request.post(options, (error, response, body) => {
-        res.send(body);
+        if(response.statusCode == 200 || response.statusCode == 201){
+            res.status(201).send(body);
+            return;
+        } else if (response.statusCode == 403){
+            res.status(403).send("Not authorized");
+        } else {
+            res.status(response.statusCode).send({
+                status: response.statusCode,
+                error: response.statusMessage
+            });
+        }
     });
 });
 
