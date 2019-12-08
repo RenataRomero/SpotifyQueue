@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-join-queue',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JoinQueueComponent implements OnInit {
 
-  constructor() { }
+  queueId:string = "";
+
+  constructor(private route:Router) { }
 
   ngOnInit() {
+  }
+
+  joinQueue() {
+    this.route.navigate([`queue/${this.queueId}`]);
   }
 
 }

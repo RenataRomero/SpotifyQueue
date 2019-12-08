@@ -5,10 +5,10 @@
     <label> Queue url </label>
     <br>
     <br>
-    <input class="textblack" type="text" />
+    <input class="textblack" type="text" [(ngModel)]="queueId" name="queueId" />
     <br>
     <br>
-    <button>
+    <button (click)="joinQueue()">
         Join
     </button>
 </div>
