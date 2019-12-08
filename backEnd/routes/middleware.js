@@ -9,7 +9,7 @@ let tokenValidator = (req, res, next) => {
 
     // console.log(JSON.parse(user_token));
 
-    req.body.access_token = JSON.parse(user_token);
+    //req.body.access_token = JSON.parse(user_token);
     next();
 }
 

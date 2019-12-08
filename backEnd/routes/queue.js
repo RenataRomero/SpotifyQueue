@@ -3,6 +3,7 @@ const router = express.Router();
 const request = require('request');
 const mw = require("./middleware");
 const joi = require('joi');
+const db = require('../bd/queuesController');
 
 router.get('/', (req, res) => {
     res.status(200);
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
 
 router.get('/create', (req, res) => {
     res.status(200);
-    res.send('QUEUE CREATE WINDOW');   
+    res.send('QUEUE CREATED');   
 });
 
 router.post('/create', mw.tokenValidator, (req, res) => {
@@ -48,8 +49,22 @@ router.post('/create', mw.tokenValidator, (req, res) => {
 
     request.post(options, (error, response, body) => {
         if(response.statusCode == 200 || response.statusCode == 201){
-            res.status(201).send(body);
-            return;
+            console.log('THIS IS RESPONSE', response);
+
+            let newQueue = {
+                user_id: body.owner.id,
+                playlistUrl: body.external_urls.spotify,
+                queueUrl: body.id
+            }
+
+            let queueDocument = db.QUEUE(newQueue);
+
+            queueDocument.save().then(function(queue){
+
+                res.status(201).send(newQueue);
+                return;
+            });
+            
         } else if (response.statusCode == 403){
             res.status(403).send("Not authorized");
         } else {
