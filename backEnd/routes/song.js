@@ -49,7 +49,7 @@ router.post('/add', mw.tokenValidator, (req, res) => {
     });
 });
 
-router.get('/search', mw.tokenValidator, (req, res) => {
+router.post('/search', mw.tokenValidator, (req, res) => {
     
     let trackSchema = {
         access_token: joi.required(),
