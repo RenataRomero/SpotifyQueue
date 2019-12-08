@@ -18,13 +18,13 @@
 
         <label>Name:</label>
         <br>
-        <input type="text">
+        <input type="text" [(ngModel)]="nameQueue" name="nameQueue">
         <br>
         <label>Description:</label>
         <br>
-        <textarea type="text" rows="10" cols="40"> </textarea>
+        <textarea type="text" rows="10" cols="40" [(ngModel)]="textQueue" name="textQueue"> </textarea>
         <br>
-        <button type="submit" class="btn btn-primary">Create Queue</button>
+        <button type="submit" class="btn btn-primary" (click)="createQueue($event)">Create Queue</button>
 
     </form>
 </div>

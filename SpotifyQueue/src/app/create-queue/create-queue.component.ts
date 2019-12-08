@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { QueueService } from '../common/services/queue.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-queue',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateQueueComponent implements OnInit {
 
-  constructor() { }
+  nameQueue:string = "";
+  textQueue:string = "";
+
+  constructor(private queueService:QueueService,
+              private router:Router) { }
 
   ngOnInit() {
+  }
+
+  createQueue() {
+    this.queueService.createQueue(this.nameQueue, this.textQueue).then((res) => {
+      if(res != undefined) {
+        this.router.navigate(['queue']);
+      } else {
+        console.log(res);
+      }
+    });
+    
   }
 
 }
