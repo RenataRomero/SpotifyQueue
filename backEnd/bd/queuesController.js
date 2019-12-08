@@ -11,7 +11,8 @@ const conn = mongoose.createConnection(uri, {
 let queueSchema = {
     user_id: String,
     queueUrl: String,
-    playlistUrl: String
+    playlistUrl: String,
+    playlist_id: String
   };
 
 conn.model('queues', new mongoose.Schema(queueSchema), 'queues');

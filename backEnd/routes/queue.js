@@ -52,7 +52,8 @@ router.post('/create', mw.tokenValidator, (req, res) => {
             let newQueue = {
                 user_id: body.owner.id,
                 playlistUrl: body.external_urls.spotify,
-                queueUrl: body.id
+                queueUrl: body.id,
+                playlist_id: body.id
             }
 
             let queueDocument = db.QUEUE(newQueue);
@@ -90,25 +91,17 @@ router.post('/join', (req, res) => {
     });
 });
 
+
+
 router.get('/:queueToken', (req, res) => {
     res.status(200);
     let queueToken = req.params.queueToken;
-    res.send({
-        name: 'QUEUE NAME',
-        description: 'QUEUE DESCRIPTION',
-        token: queueToken,
-        songs:[{
-            name: 'Song 1',
-            artist: 'Artist 1'
-        },
-        {
-            name: 'Song 2',
-            artist: 'Artist 2'
-        },
-        {
-            name: 'Song 3',
-            artist: 'Artist 3'
-        }]
+    res.status(200);
+    db.QUEUE.find({queueUrl: queueToken}).then(function(queue){
+        let foundQueue = {
+            playlist_id: queue[0].playlist_id
+        }
+        res.send(foundQueue);
     });
 });
 
