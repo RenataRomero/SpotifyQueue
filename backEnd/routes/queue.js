@@ -45,8 +45,6 @@ router.post('/create', mw.tokenValidator, (req, res) => {
         json: true
     };
 
-    // console.log(options);
-
     request.post(options, (error, response, body) => {
         if(response.statusCode == 200 || response.statusCode == 201){
             console.log('THIS IS RESPONSE', response);
@@ -84,10 +82,12 @@ router.get('/join', (req, res) => {
 
 router.post('/join', (req, res) => {
     res.status(200);
-    let queueToken = req.body.queueToken;
-
-    res.send(`JOINED QUEUE WITH THE TOKEN: ${queueToken}`);
-
+    db.QUEUE.find({queueUrl: req.body.queueUrl}).then(function(queue){
+        let foundQueue = {
+            spotifyUrl: queue[0].playlistUrl
+        }
+        res.send(foundQueue);
+    });
 });
 
 router.get('/:queueToken', (req, res) => {
