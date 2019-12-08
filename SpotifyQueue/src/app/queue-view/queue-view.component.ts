@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { QueueService } from '../common/services/queue.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -7,30 +7,40 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './queue-view.component.html',
   styleUrls: ['./queue-view.component.css']
 })
-export class QueueViewComponent implements OnInit {
+export class QueueViewComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit() {
+    this.queueService.getPlaylistId(this.queueId).then((res:any) => {
+      this.playlist_id = res.playlist_id;
+      this.element.nativeElement.querySelector('iframe').src = this.baseURL + res.playlist_id;
+    });
+  }
 
+  baseURL = "https://open.spotify.com/embed/playlist/";
   songName:string = "";
   songArtist:string = "";
   queueId:string = "";
+  playlist_id:string = "";
 
   constructor(private queueService:QueueService,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private element:ElementRef) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.queueId = params.get("queueId");
-    })
+    });
+    console.log(this.element.nativeElement.querySelector('iframe').src);
   }
 
   searchSong() {
     this.queueService.searchSong(this.songName).then((res:any) => {
-      // console.log(res.tracks.items[0].uri);
       let song_uri = res.tracks.items[0].uri;
       if(res != undefined) {
         this.queueService.getPlaylistId(this.queueId).then((res:any) => {
           // console.log(res.playlist_id); //NECESARIO PARA QUE AGREGUE LA FUNCION NO SE QUE CHINGADOS
           this.queueService.addSong(song_uri, res.playlist_id).then((res) => {
               console.log(res);
+              this.element.nativeElement.querySelector('iframe').src = this.baseURL + this.playlist_id;
           });
         }) ;
       }
