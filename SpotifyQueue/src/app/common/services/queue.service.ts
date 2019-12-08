@@ -30,4 +30,36 @@ export class QueueService {
     return this.httpClient.post(url, JSON.stringify(data), options).toPromise();
   }
 
+  searchSong(queueName:string) {
+    const url = `${environment.url}song/search`;
+    const data = {
+      "access_token": localStorage.getItem("token"),
+      "q": queueName
+    };
+    let httpHeaders = new HttpHeaders(({'Content-Type': 'application/json', 'x-auth-user': localStorage.getItem("token")})); 
+    let options = {
+      headers: httpHeaders
+    }
+   return this.httpClient.post(url, JSON.stringify(data), options).toPromise();
+  }
+
+  addSong(queueURI:string, playlist_id:string) {
+    const url = `${environment.url}song/add`;
+    const data = {
+      "access_token": localStorage.getItem("token"),
+      "uris": queueURI,
+      "playlist_id": playlist_id
+    };
+    let httpHeaders = new HttpHeaders({'Content-Type': 'application/json', 'x-auth-user': localStorage.getItem("token")});
+    let options = {
+      headers: httpHeaders
+    };
+    return this.httpClient.post(url, data, options).toPromise();
+  }
+
+  getPlaylistId(queueId:string) {
+    const url = `${environment.url}queue/${queueId}`;
+    return this.httpClient.get(url).toPromise();
+  }
+
 }

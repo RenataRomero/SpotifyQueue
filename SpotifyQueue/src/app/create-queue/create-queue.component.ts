@@ -21,7 +21,7 @@ export class CreateQueueComponent implements OnInit {
   createQueue() {
     this.queueService.createQueue(this.nameQueue, this.textQueue).then((res) => {
       if(res != undefined) {
-        this.router.navigate(['queue']);
+        this.router.navigate([`queue/${res.queueUrl}`]);
       } else {
         console.log(res);
       }
