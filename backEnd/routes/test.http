@@ -1,0 +1,45 @@
+@host = http://localhost:3000
+
+@token = "BQD-ZdyBQEgxlzsVNA7MPY9LfskklSI5vKmSqrgR0jh-FiWV7l9yCz7a3TQujSjyG9DEWGjHK39SWnUf1HmUaFbqFgah6R1YHOm-OQoKjYyi8kY5gIvZ-SVY--d7v0mhtLURWlK--Y_j3kqI1Hhzm4ZKziYl01NKBecZ0KFpoifMj7Uqfmr4vN2jiqxjV7YST6efdViQl-5VCgLYtgkFw-kejQHvjwCnatVILsHipuLc5b0"
+
+### LOGIN
+GET {{host}}/login
+Content-Type: application/json
+
+### GET USER INFO
+GET {{host}}/user
+Content-Type: application/json
+x-auth-user: {{token}}
+
+### POST PLAYLIST 
+POST {{host}}/queue/create
+Content-Type: application/json
+x-auth-user: {{token}}
+
+{
+    "user_id":"marianasierrav",
+    "name":"Test playlist",
+    "description": "Spotify queue"
+}
+
+### SEARCH TRACK
+GET {{host}}/song/search
+Content-Type: application/json
+x-auth-user: {{token}}
+
+{
+    "q":"outright"
+}
+
+### ADD TRACK TO YOUR OWN PLAYLIST
+POST {{host}}/song/add
+Content-Type: application/json
+x-auth-user: {{token}}
+
+{
+    "uris":"spotify:track:6TGapnqEUkkSBanKyn5qYy",
+    "playlist_id":"53yPZFttZpatuKsXKIwLVa"
+}
+
+
+
