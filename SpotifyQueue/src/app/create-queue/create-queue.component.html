@@ -2,7 +2,7 @@
     <a class="navbar-brand" routerLink="../home">Home</a>
     <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Search queue id" aria-label="Search">
-        <button class="btn btn-dark my-2 my-sm-0" type="submit">Search</button>
+        <button class="btn btn-dark my-2 my-sm-0" (click)=searchQueue($event) type="submit">Search</button>
     </form>
 </nav>
 <div class="jumbotron jumbotron-fluid">
