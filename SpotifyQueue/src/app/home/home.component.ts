@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
       if(tokens.access_token && tokens.access_token!=""){
         localStorage.setItem('token',tokens.access_token);
         localStorage.setItem('refresh_token',tokens.refresh_token);
+        localStorage.setItem('user_id',tokens.user_id);
       }
     })
   }

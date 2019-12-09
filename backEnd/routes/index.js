@@ -30,7 +30,8 @@ router.get('/', (req, res) => {
 router.get('/tokens', (req, res) => {
     res.json({
         access_token:req.session.access_token?req.session.access_token:"",
-        refresh_token:req.session.refresh_token?req.session.refresh_token:""
+        refresh_token:req.session.refresh_token?req.session.refresh_token:"",
+        user_id:req.session.user_id?req.session.user_id:""
       })
 });
 
@@ -96,7 +97,8 @@ router.get('/callback', (req, res) => {
                 request.get(options, (error, response, body) => {
 
                     user_id = body.id;
-
+                    req.session.user_id=user_id;
+                    req.session.save();
                     db.QUEUE.findOne({user_id:user_id}).then((queue)=>{
 
                         console.log(queue);
@@ -108,6 +110,7 @@ router.get('/callback', (req, res) => {
                             playlistUrl: queue.playlistUrl,
                             playlist_id: queue.playlist_id
                         }
+
 
                         console.log('new_tokens',new_tokens);
 
