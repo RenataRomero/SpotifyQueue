@@ -18,6 +18,7 @@ router.get('/create', (req, res) => {
 router.post('/create', mw.tokenValidator, (req, res) => {
     const queueSchema = {
         access_token: joi.required(),
+        refresh_token: joi.required(),
         user_id: joi.required(),
         name: joi.required(),
         description: joi.optional()
@@ -47,13 +48,14 @@ router.post('/create', mw.tokenValidator, (req, res) => {
 
     request.post(options, (error, response, body) => {
         if(response.statusCode == 200 || response.statusCode == 201){
-            console.log('THIS IS RESPONSE', response);
 
             let newQueue = {
                 user_id: body.owner.id,
                 playlistUrl: body.external_urls.spotify,
                 queueUrl: body.id,
-                playlist_id: body.id
+                playlist_id: body.id,
+                access_token: queue.value.access_token,
+                refresh_token: queue.value.refresh_token
             }
 
             let queueDocument = db.QUEUE(newQueue);
@@ -99,16 +101,55 @@ router.get('/:queueToken', (req, res) => {
     res.status(200);
     db.QUEUE.find({queueUrl: queueToken}).then(function(queue){
         let foundQueue = {
-            playlist_id: queue[0].playlist_id
+            playlist_id: queue[0].playlist_id,
+            user_id: queue[0].user_id,
+            access_token: queue[0].access_token,
+            refresh_token: queue[0].refresh_token
         }
         res.send(foundQueue);
     });
 });
 
-router.delete('/:queueToken', (req, res) => {
-    res.status(200);
-    let queueToken = req.params.queueToken;
-    res.send(`DELETED QUEUE WITH THE TOKEN: ${queueToken}`);
+router.post('/refreshToken', (req, res) =>{
+
+    let queue_id = req.body.queue_id;
+
+    console.log(queue_id);
+
+    db.QUEUE.findOne({queueUrl: queue_id}).then((queue) => {
+
+        console.log(queue);
+        res.status(200);
+        res.send({
+            refresh_token: queue.refresh_token
+        });
+    });
+});
+
+router.post('/accessToken', (req, res) =>{
+
+    db.QUEUE.findOne({queueUrl: req.body.queue_id}).then((queue)=>{
+
+        console.log(queue);
+        let new_tokens = {
+            access_token: req.body.access_token,
+            refresh_token: queue.refresh_token,
+            user_id: queue.user_id,
+            queueUrl: queue.queueUrl,
+            playlistUrl: queue.playlistUrl,
+            playlist_id: queue.playlist_id
+        }
+
+        console.log('new_tokens',new_tokens);
+
+        db.QUEUE.findOneAndUpdate({queueUrl: req.body.queue_id}, new_tokens).then((queue) =>{
+            console.log(queue);
+            res.status(200);
+            res.send('Saved');
+        });
+    });
+
+    
 });
 
 module.exports = router;

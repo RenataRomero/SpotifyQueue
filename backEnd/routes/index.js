@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const querystring = require('querystring');
 const request = require('request');
+const db = require('../bd/queuesController');
 
 const client_id = "905cb524080444c99efb4d8c4aa8f01f";
 const client_secret = "96352da348ae4011b548278224280854";
@@ -85,7 +86,31 @@ router.get('/callback', (req, res) => {
                 };
 
                 request.get(options, (error, response, body) => {
-                    console.log(body);
+
+                    user_id = body.id;
+
+                    db.QUEUE.findOne({user_id:user_id}).then((queue)=>{
+
+                        console.log(queue);
+                        let new_tokens = {
+                            access_token: access_token,
+                            refresh_token: refresh_token,
+                            user_id: queue.user_id,
+                            queueUrl: queue.queueUrl,
+                            playlistUrl: queue.playlistUrl,
+                            playlist_id: queue.playlist_id
+                        }
+
+                        console.log('new_tokens',new_tokens);
+
+                        db.QUEUE.findOneAndReplace({
+                            user_id:user_id
+                        }, new_tokens).then((new_queue)=>{
+                            console.log(new_queue);
+                        });
+                    });
+
+                    
                 });
 
                 //return the access token and refresh token
@@ -95,8 +120,8 @@ router.get('/callback', (req, res) => {
                 //         refresh_token: refresh_token
                 //     }));
                 res.status(200).send({
-                    access_token: access_token,
-                    refresh_token: refresh_token
+                     access_token: access_token,
+                     refresh_token: refresh_token
                 });
             } else {
                 // res.redirect('/#' +
@@ -129,7 +154,7 @@ router.get('/refresh_token', function (req, res) {
         if (!error && response.statusCode === 200) {
             let access_token = body.access_token;
             res.send({
-                'access_token': access_token
+                body
             });
         }
     });

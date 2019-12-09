@@ -12,7 +12,9 @@ let queueSchema = {
     user_id: String,
     queueUrl: String,
     playlistUrl: String,
-    playlist_id: String
+    playlist_id: String,
+    access_token: String,
+    refresh_token: String
   };
 
 conn.model('queues', new mongoose.Schema(queueSchema), 'queues');

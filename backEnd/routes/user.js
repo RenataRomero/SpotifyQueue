@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 const mw = require("./middleware");
+const db = require('../bd/queuesController');
 
 router.route("/")
     .get(mw.tokenValidator, (req, res) => {
