@@ -28,7 +28,9 @@
     </div>
 </form>
 <div class="player">
-    <iframe id="queue" src="https://open.spotify.com/embed/playlist/2ehIooSkp2XPe55VppmNtS" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    <div *ngIf="this.queueId!=''">
+        <iframe id="queue" src="https://open.spotify.com/embed/playlist/{{this.queueId}}" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
 </div>
 <div>
     <button class="btn btn-primary" routerLink="/home">Home</button>
