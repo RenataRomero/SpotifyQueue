@@ -66,8 +66,9 @@ export class QueueService {
   async isOwner(userId:string, queueId:string):Promise<any> {
     const url = `${environment.url}queue/${queueId}`;
     let result = await this.httpClient.get(url).toPromise().then((res:any) => {
-      console.log(res);
-      if(res.user_id == userId) 
+      console.log(res.user_id == userId);
+      console.log(userId);
+      if(res.user_id === userId) 
         return true;
       else 
         return false;
