@@ -11,6 +11,7 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.queueService.getPlaylistId(this.queueId).then((res:any) => {
       this.playlist_id = res.playlist_id;
+      this.owner_access_token = res.access_token;
       this.element.nativeElement.querySelector('iframe').src = this.baseURL + res.playlist_id;
     });
   }
@@ -20,6 +21,7 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
   songArtist:string = "";
   queueId:string = "";
   playlist_id:string = "";
+  owner_access_token = "";
 
   constructor(private queueService:QueueService,
               private route:ActivatedRoute,
@@ -38,7 +40,7 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
       if(res != undefined) {
         this.queueService.getPlaylistId(this.queueId).then((res:any) => {
           // console.log(res.playlist_id); //NECESARIO PARA QUE AGREGUE LA FUNCION NO SE QUE CHINGADOS
-          this.queueService.addSong(song_uri, res.playlist_id).then((res) => {
+          this.queueService.addSong(song_uri, res.playlist_id, this.owner_access_token).then((res) => {
               console.log(res);
               this.element.nativeElement.querySelector('iframe').src = this.baseURL + this.playlist_id;
           });

@@ -19,6 +19,7 @@ export class QueueService {
     const url = `${environment.url}queue/create`;
     const data = {
       "access_token": localStorage.getItem("token"),
+      "refresh_token": localStorage.getItem("refresh_roken"),
       "user_id": localStorage.getItem("user_id"),
       "name": nameQueue,
       "description": descriptionQueue
@@ -43,10 +44,10 @@ export class QueueService {
    return this.httpClient.post(url, JSON.stringify(data), options).toPromise();
   }
 
-  addSong(queueURI:string, playlist_id:string) {
+  addSong(queueURI:string, playlist_id:string, owner_at:string) {
     const url = `${environment.url}song/add`;
     const data = {
-      "access_token": localStorage.getItem("token"),
+      "access_token": owner_at,
       "uris": queueURI,
       "playlist_id": playlist_id
     };
@@ -60,6 +61,18 @@ export class QueueService {
   getPlaylistId(queueId:string) {
     const url = `${environment.url}queue/${queueId}`;
     return this.httpClient.get(url).toPromise();
+  }
+
+  async isOwner(userId:string, queueId:string):Promise<any> {
+    const url = `${environment.url}queue/${queueId}`;
+    let result = await this.httpClient.get(url).toPromise().then((res:any) => {
+      console.log(res);
+      if(res.user_id == userId) 
+        return true;
+      else 
+        return false;
+    });
+    return result;
   }
 
 }

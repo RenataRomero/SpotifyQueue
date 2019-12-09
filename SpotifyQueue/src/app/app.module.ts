@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { JoinQueueComponent } from './join-queue/join-queue.component';
 import { RoleDirective } from './common/directives/role.directive';
 import { QueueViewComponent } from './queue-view/queue-view.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { QueueViewComponent } from './queue-view/queue-view.component';
     HomeComponent,
     JoinQueueComponent,
     RoleDirective,
-    QueueViewComponent
+    QueueViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
