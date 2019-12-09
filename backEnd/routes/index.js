@@ -41,7 +41,7 @@ router.get('/login', (req, res) => {
             redirect_uri: redirect_uri,
             state: state
         }));
-    
+
     res.status(200).send();
 });
 
@@ -110,19 +110,13 @@ router.get('/callback', (req, res) => {
                         });
                     });
 
-                    
+
                 });
 
-                //return the access token and refresh token
-                // res.redirect('/#' +
-                //     querystring.stringify({
-                //         access_token: access_token,
-                //         refresh_token: refresh_token
-                //     }));
-                res.status(200).send({
-                     access_token: access_token,
-                     refresh_token: refresh_token
-                });
+                //Almacenar mientra usuario esta logeado
+                req.session.access_token= access_token,
+                req.session.refresh_token= refresh_token
+                res.redirect("/")
             } else {
                 // res.redirect('/#' +
                 //     querystring.stringify({
