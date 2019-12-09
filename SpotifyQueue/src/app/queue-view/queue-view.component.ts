@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class QueueViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
+    console.log("inside afterview");
     this.queueService.getPlaylistId(this.queueId).then((res:any) => {
       this.playlist_id = res.playlist_id;
       this.owner_access_token = res.access_token;
@@ -21,7 +22,7 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
   songArtist:string = "";
   queueId:string = "";
   playlist_id:string = "";
-  owner_access_token = "";
+  owner_access_token:string = "";
 
   constructor(private queueService:QueueService,
               private route:ActivatedRoute,
@@ -31,14 +32,15 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
     this.route.paramMap.subscribe(params => {
       this.queueId = params.get("queueId");
     });
-    console.log(this.element.nativeElement.querySelector('iframe').src);
   }
 
   searchSong() {
     this.queueService.searchSong(this.songName).then((res:any) => {
       let song_uri = res.tracks.items[0].uri;
+      console.log('inside search');
       if(res != undefined) {
         this.queueService.getPlaylistId(this.queueId).then((res:any) => {
+          console.log(this.owner_access_token);
           // console.log(res.playlist_id); //NECESARIO PARA QUE AGREGUE LA FUNCION NO SE QUE CHINGADOS
           this.queueService.addSong(song_uri, res.playlist_id, this.owner_access_token).then((res) => {
               console.log(res);

@@ -25,7 +25,7 @@ export class RoleDirective implements AfterViewChecked, AfterViewInit {
 
   ngAfterViewInit() {
     // if(this.queueService.isOwner(localStorage.getItem("user_id"), this.queueURL))
-    console.log(this.eR.nativeElement.remove());
+    this.eR.nativeElement.remove();
     /*
     if(this.queueService.isOwner(localStorage.getItem("user_id"), this.queueURL))
       this.eR.nativeElement.remove();

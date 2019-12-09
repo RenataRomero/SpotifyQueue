@@ -19,7 +19,7 @@ export class QueueService {
     const url = `${environment.url}queue/create`;
     const data = {
       "access_token": localStorage.getItem("token"),
-      "refresh_token": localStorage.getItem("refresh_roken"),
+      "refresh_token": localStorage.getItem("refresh_token"),
       "user_id": localStorage.getItem("user_id"),
       "name": nameQueue,
       "description": descriptionQueue
