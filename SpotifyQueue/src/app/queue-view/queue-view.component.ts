@@ -23,7 +23,7 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
   queueId:string = "";
   playlist_id:string = "";
   owner_access_token:string = "";
-
+  results=[];
   constructor(private queueService:QueueService,
               private route:ActivatedRoute,
               private element:ElementRef) { }
@@ -34,19 +34,23 @@ export class QueueViewComponent implements OnInit, AfterViewInit {
     });
   }
 
+  addToQueue(song_id:string){
+    let song_uri="spotify:track:"+song_id;
+    this.queueService.getPlaylistId(this.queueId).then((res:any) => {
+      console.log(this.owner_access_token);
+      // console.log(res.playlist_id); //NECESARIO PARA QUE AGREGUE LA FUNCION NO SE QUE CHINGADOS
+      this.queueService.addSong(song_uri, res.playlist_id, this.owner_access_token).then((res) => {
+          console.log(res);
+          this.element.nativeElement.querySelector('iframe').src = this.baseURL + this.playlist_id;
+      });
+    })
+  }
+
   searchSong() {
     this.queueService.searchSong(this.songName).then((res:any) => {
-      let song_uri = res.tracks.items[0].uri;
-      console.log('inside search');
-      if(res != undefined) {
-        this.queueService.getPlaylistId(this.queueId).then((res:any) => {
-          console.log(this.owner_access_token);
-          // console.log(res.playlist_id); //NECESARIO PARA QUE AGREGUE LA FUNCION NO SE QUE CHINGADOS
-          this.queueService.addSong(song_uri, res.playlist_id, this.owner_access_token).then((res) => {
-              console.log(res);
-              this.element.nativeElement.querySelector('iframe').src = this.baseURL + this.playlist_id;
-          });
-        }) ;
+      for(let i in res.tracks.items){
+        let track=res.tracks.items[i]
+        this.results.push(track);
       }
     })
   }
