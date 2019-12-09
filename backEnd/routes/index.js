@@ -27,6 +27,14 @@ router.get('/', (req, res) => {
     res.send('MAIN WINDOW');
 });
 
+router.get('/tokens', (req, res) => {
+    res.json({
+        access_token:req.session.access_token?req.session.access_token:"",
+        refresh_token:req.session.refresh_token?req.session.refresh_token:""
+      })
+});
+
+
 router.get('/login', (req, res) => {
     let state = generateRandomString(16);
     res.cookie(state_key, state);
