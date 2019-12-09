@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
-  constructor(private authService:AuthService, 
+  constructor(private authService:AuthService,
             private router:Router,
             private httpClient:HttpClient) {
 
@@ -26,6 +26,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
       return true;
     } else {
       console.log('Falló guard');
+      this.router.navigate(['/login'])
       return false;
     }
     // return new Promise(resolve =>
