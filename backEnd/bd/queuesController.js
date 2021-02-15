@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const uri = require('../utils/bd').URI;
+const uri = require('../config').DB_URI;
 
 const conn = mongoose.createConnection(uri, {
     bufferCommands: false,

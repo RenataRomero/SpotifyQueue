@@ -1,8 +1,8 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
-        <h1 class="display-4">Queue song request.</h1>
+        <h1 class="display-4">Add song to queue</h1>
         <p class="lead">
-            Since this is an independent Spotify project, to add a song, put the name of the song and the artist..</p>
+            Enter the name of the song and the artist to search</p>
     </div>
 </div>
 <form>
@@ -16,10 +16,21 @@
     </div>
     <div class="form-group form-check">
     </div>
-    <button type="submit" class="btn btn-primary" (click)="searchSong()">Add to queue</button>
+    <button type="submit" class="btn btn-primary" (click)="searchSong()">Search Song</button>
+    <div id="results" style="max-height: 200px;
+    overflow-y: scroll;
+    background-color: #1d1f3a;
+    margin: 15px;">
+      <div *ngFor="let song of results" style="display:flex">
+          <span style="margin:15px; flex-grow:1; font-size:0.8em" class="song_name">{{song.name}} - {{song.artists[0].name}}</span>
+          <button _ngcontent-eng-c3="" class="btn btn-primary" (click)="addToQueue(song.id)">Add to queue</button>
+      </div>
+    </div>
 </form>
 <div class="player">
-    <iframe id="queue" src="https://open.spotify.com/embed/playlist/2ehIooSkp2XPe55VppmNtS" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    <div *ngIf="this.queueId!=''">
+        <iframe id="queue" src="https://open.spotify.com/embed/playlist/{{this.queueId}}" width="600" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
 </div>
 <div>
     <button class="btn btn-primary" routerLink="/home">Home</button>

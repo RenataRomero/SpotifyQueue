@@ -11,6 +11,7 @@ export class CreateQueueComponent implements OnInit {
 
   nameQueue:string = "";
   textQueue:string = "";
+  joinQueueId:string="";
 
   constructor(private queueService:QueueService,
               private router:Router) { }
@@ -26,7 +27,11 @@ export class CreateQueueComponent implements OnInit {
         console.log(res);
       }
     });
-    
+
+  }
+
+  joinQueue() {
+    this.router.navigate(["queue",this.joinQueueId]);
   }
 
 }

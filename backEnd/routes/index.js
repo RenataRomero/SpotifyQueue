@@ -27,6 +27,15 @@ router.get('/', (req, res) => {
     res.send('MAIN WINDOW');
 });
 
+router.get('/tokens', (req, res) => {
+    res.json({
+        access_token:req.session.access_token?req.session.access_token:"",
+        refresh_token:req.session.refresh_token?req.session.refresh_token:"",
+        user_id:req.session.user_id?req.session.user_id:""
+      })
+});
+
+
 router.get('/login', (req, res) => {
     let state = generateRandomString(16);
     res.cookie(state_key, state);
@@ -41,7 +50,7 @@ router.get('/login', (req, res) => {
             redirect_uri: redirect_uri,
             state: state
         }));
-    
+
     res.status(200).send();
 });
 
@@ -88,7 +97,8 @@ router.get('/callback', (req, res) => {
                 request.get(options, (error, response, body) => {
 
                     user_id = body.id;
-
+                    req.session.user_id=user_id;
+                    req.session.save();
                     db.QUEUE.findOne({user_id:user_id}).then((queue)=>{
 
                         console.log(queue);
@@ -101,6 +111,7 @@ router.get('/callback', (req, res) => {
                             playlist_id: queue.playlist_id
                         }
 
+
                         console.log('new_tokens',new_tokens);
 
                         db.QUEUE.findOneAndReplace({
@@ -110,19 +121,13 @@ router.get('/callback', (req, res) => {
                         });
                     });
 
-                    
+
                 });
 
-                //return the access token and refresh token
-                // res.redirect('/#' +
-                //     querystring.stringify({
-                //         access_token: access_token,
-                //         refresh_token: refresh_token
-                //     }));
-                res.status(200).send({
-                     access_token: access_token,
-                     refresh_token: refresh_token
-                });
+                //Almacenar mientra usuario esta logeado
+                req.session.access_token= access_token,
+                req.session.refresh_token= refresh_token
+                res.redirect("/")
             } else {
                 // res.redirect('/#' +
                 //     querystring.stringify({

@@ -12,4 +12,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  redirectToLogin(){
+    window.location.href="/login"
+  }
 }

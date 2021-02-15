@@ -8,7 +8,7 @@ const joi = require('joi');
 const mw = require("./middleware");
 
 router.post('/add', mw.tokenValidator, (req, res) => {
-    
+
     let addTrackSchema = {
         access_token: joi.required(),
         uris: joi.required(),
@@ -50,7 +50,7 @@ router.post('/add', mw.tokenValidator, (req, res) => {
 });
 
 router.post('/search', mw.tokenValidator, (req, res) => {
-    
+
     let trackSchema = {
         access_token: joi.required(),
         q: joi.required()
@@ -63,12 +63,12 @@ router.post('/search', mw.tokenValidator, (req, res) => {
         return;
     }
 
-    let url = `https://api.spotify.com/v1/search?`+ 
+    let url = `https://api.spotify.com/v1/search?`+
         querystring.stringify({
             q: track.value.q,
             type: 'track',
             market: 'from_token',
-            limit: 1,
+            limit: 20,
         });
 
     // console.log(url);

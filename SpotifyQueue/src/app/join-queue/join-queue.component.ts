@@ -16,7 +16,7 @@ export class JoinQueueComponent implements OnInit {
   }
 
   joinQueue() {
-    this.route.navigate([`queue/${this.queueId}`]);
+    this.route.navigate(['queue',this.queueId]);
   }
 
 }
